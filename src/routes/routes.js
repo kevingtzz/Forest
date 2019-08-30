@@ -1,7 +1,7 @@
 const express = require('express')
 const AppControllers = require('../controllers/controllers')
-const api = express.Router()
+const router = express.Router()
 
-api.get('/', AppControllers.get_home)
+router.get('/', AppControllers.get_home)
 
-module.exports = api
+module.exports = router

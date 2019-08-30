@@ -1,14 +1,21 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const config = require('../config')
-const api = require('./routes/routes')
+const path = require('path')
 
 const app = express()
 
-//Middlewares
-app.use(api)
+//settings
+app.set('view engine', 'ejs')
+app.engine('html', require('ejs').renderFile)
+
+//Routes
+app.use(require('./routes/routes'))
+
+//static files
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.listen(config.port, ()=> {
-    console.log(`API REST running on http://localhost:${config.port}`)
+    console.log(`Forest App running on http://localhost:${config.port}`)
 })
 
