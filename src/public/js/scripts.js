@@ -4,6 +4,7 @@ req.open("GET", '/get_nodes', true)
 req.addEventListener('load', () => {
   if(req.status == 200) {
     let data = JSON.parse(req.response)
+    console.log(req.responseText)
   } else if (req.status > 200) {
     console.log(req.responseText)
   } else {
