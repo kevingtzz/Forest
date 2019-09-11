@@ -1,3 +1,22 @@
+//GET DATA TO PLOT
+var req = new XMLHttpRequest()
+req.open("GET", '/get_nodes', true)
+req.addEventListener('load', () => {
+  if(req.status == 200) {
+    let data = JSON.parse(req.response)
+  } else if (req.status > 200) {
+    console.log(req.responseText)
+  } else {
+    console.error(req.status + ' ' + req.statusText)
+  }
+}) 
+req.addEventListener("error", function(){
+  console.error("Error de red"); // Error de conexión
+});
+req.send(null)
+  
+
+//Render map
 
 var medellin = {lat: 6.2537201, lng: -75.6078822}
 
@@ -48,4 +67,3 @@ function initMap() {
           }
 }
 
-//GET DATA TO PLOT
