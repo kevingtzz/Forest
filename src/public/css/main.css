@@ -4,8 +4,8 @@
 }
 
 nav {
-    height: 300px;
-    width: 100px;
+    height: 240px;
+    width: 80px;
     bottom: 50px;
     position: absolute;
     display: grid;
@@ -13,23 +13,49 @@ nav {
     z-index: 10;
 }
 
-button {
+nav button {
     margin: 10px;
     border-radius: 50%;
     outline: none;
+    filter: drop-shadow(3px 4px 3px rgb(61, 61, 61));
+    border: none;
     display: none;
 }
 
+nav button:hover {
+    filter: drop-shadow(1px 2px 2px rgb(61, 61, 61));
+}
+
 #online {
-    background-color: #3bbb7f;
+    background-color: white;
+    /**color: rgb(104, 201, 104);**/
+    color: gray;
+    font-size: 25px;
+}
+
+#online:hover {
+    color: rgb(33, 161, 76);
 }
 
 #offline {
-    background-color: #a83636;
+    background-color: white;
+    color: gray;
+    font-size: 22px;
+}
+
+#offline:hover {
+    color: rgb(161, 33, 33);
 }
 
 #layers {
-    background-color: #43acb9;
+    background-color: white;
+    /**color: rgb(136, 77, 77);**/
+    color: gray;
+    font-size: 23px;
+}
+
+#layers:hover {
+    color: rgb(61, 24, 24);
 }
 
 #map {
