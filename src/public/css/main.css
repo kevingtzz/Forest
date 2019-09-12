@@ -17,6 +17,7 @@ button {
     margin: 10px;
     border-radius: 50%;
     outline: none;
+    display: none;
 }
 
 #online {
