@@ -11,13 +11,27 @@ controller.get_home = (req, res) => {
 
 //Internal controllers
 
-controller.get_active_nodes = (req, res) => {   
+controller.get_online_nodes = (req, res) => {   
     fetch('http://siata.gov.co:3000/cc_api/estaciones/listar/').then((res) => {
         return res.json()
     }).then((json) => {
         let active_nodes = []
         for( i = 0; i < json.length; ++i) {
             if (json[i].online == "Y") {
+                active_nodes.push(json[i])
+            }
+        }
+        res.send(active_nodes)
+    })
+}
+
+controller.get_offline_nodes = (req, res) => {   
+    fetch('http://siata.gov.co:3000/cc_api/estaciones/listar/').then((res) => {
+        return res.json()
+    }).then((json) => {
+        let active_nodes = []
+        for( i = 0; i < json.length; ++i) {
+            if (json[i].online == "N") {
                 active_nodes.push(json[i])
             }
         }

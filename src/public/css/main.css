@@ -3,6 +3,33 @@
     padding: 0;
 }
 
+nav {
+    height: 300px;
+    width: 100px;
+    bottom: 50px;
+    position: absolute;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    z-index: 10;
+}
+
+button {
+    margin: 10px;
+    border-radius: 50%;
+}
+
+#online {
+    background-color: #3bbb7f;
+}
+
+#offline {
+    background-color: #a83636;
+}
+
+#layers {
+    background-color: #43acb9;
+}
+
 #map {
     height: 100vh;
     width: 100vw;
