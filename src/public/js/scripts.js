@@ -10,6 +10,16 @@ const MEDELLIN_BOUNDS = {
   east: -75.125109,
 }
 
+const CATEGORIES = {
+  good: '	#32CD32',
+  moderate: '#FFD700',
+  harmfulSensible: '#FF8C00',
+  harmful: '#FF4500',
+  veryHarmful: '#800080',
+  dangeruous: '#8B4513'
+}
+
+var data = []
 
 //---------------------RENDERING MAP----------------------------//
 
@@ -37,6 +47,7 @@ function initMap() {
       });
     })
   } 
+  graph_dos_cinco()
 }
 
 //-------------------------BUTTON FUNCTIONS---------------------//
@@ -47,40 +58,24 @@ var layers_button = document.getElementById('layers')
 
 online_nodes_button.addEventListener('click', get_online_nodes)
 offline_nodes_button.addEventListener('click', get_offline_nodes)
+layers_button.addEventListener('click', graph_dos_cinco)
 
 //----------------------GET DATA FUNCTIONS----------------------//
 
-function get_online_nodes() {
-
-  var req = new XMLHttpRequest()
-  req.open("GET", '/get_online_nodes', true)
-  req.addEventListener('load', () => {
-    if (req.status == 200) {
-      let data = JSON.parse(req.response)
-  
-      for(i = 0; i < data.length; i++) {
-        let marker = new google.maps.Marker({
-          position: {
-            lat: data[i].latitude,
-            lng: data[i].longitude
-          },
-          map: map,
-          title: 'Hello World!',
-          icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-        });
-      }
-    } else if (req.status > 200) {
-      console.log(req.responseText)
-    } else {
-      console.error(req.status + ' ' + req.statusText)
-    }
-  })
-  req.addEventListener("error", function () {
-    console.error("Error de red"); // Error de conexión
-  });
-  req.send(null)
-
+function get_online_nodes() {  
+  for(i = 0; i < data.length; i++) {
+    let marker = new google.maps.Marker({
+      position: {
+        lat: data[i].latitude,
+        lng: data[i].longitude
+      },
+      map: map,
+      title: 'Hello World!',
+      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+    });
+  }
 }
+
 
 function get_offline_nodes() {
 
@@ -114,5 +109,57 @@ function get_offline_nodes() {
 
 }
 
+//----------------------------- Graphic data ------------------------//
 
+function graph_dos_cinco() {
 
+  var req = new XMLHttpRequest()
+  req.open("GET", '/get_online_nodes', true)
+  req.addEventListener('load', () => {
+    if (req.status == 200) {
+      data = JSON.parse(req.response)
+      for (var i in data) {
+        let cent = {
+          lat: data[i].latitude,
+          lng: data[i].longitude
+        }
+
+        //set color
+        let color = '#000000'
+        if (data[i].PM2_5_CC_ICA >= 0.0 && data[i].PM2_5_CC_ICA <= 50.0) {
+          color = CATEGORIES.good
+        } else if (data[i].PM2_5_CC_ICA >= 51.0 && data[i].PM2_5_CC_ICA <= 100.0) {
+          color = CATEGORIES.moderate
+        } else if (data[i].PM2_5_CC_ICA >= 101.0 && data[i].PM2_5_CC_ICA <= 150.0) {
+          color = CATEGORIES.harmfulSensible
+        } else if (data[i].PM2_5_CC_ICA >= 151.0 && data[i].PM2_5_CC_ICA <= 200.0) {
+          color = CATEGORIES.harmful
+        } else if (data[i].PM2_5_CC_ICA >= 201.0 && data[i].PM2_5_CC_ICA <= 300.0) {
+          color = CATEGORIES.veryHarmful
+        } else if (data[i].PM2_5_CC_ICA >= 301.0 && data[i].PM2_5_CC_ICA <= 500.0) {
+          color = CATEGORIES.dangeruous
+        } 
+        console.log(data[i].PM2_5_CC_ICA)
+        // Add the circle for this city to the map.
+        var cityCircle = new google.maps.Circle({
+          strokeColor: color,
+          strokeOpacity: 0.2,
+          strokeWeight: 1,
+          fillColor: color,
+          fillOpacity: 0.25,
+          map: map,
+          center: cent ,
+          radius: 400
+        });
+      }
+    } else if (req.status > 200) {
+      console.log(req.responseText)
+    } else {
+      console.error(req.status + ' ' + req.statusText)
+    }
+  })
+  req.addEventListener("error", function () {
+    console.error("Error de red"); // Error de conexión
+  });
+  req.send(null)
+}
