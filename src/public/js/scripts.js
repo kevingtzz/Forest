@@ -1,17 +1,42 @@
-var medellin_coords = {
-  lat: 6.2537201,
-  lng: -75.6078822
+const MEDELLIN_COORDS = {
+  lat: 6.252045,
+  lng: -75.574566
 }
+
+const MEDELLIN_BOUNDS = {
+  north: 6.523298,
+  south: 6.044107,
+  west: -75.839895,
+  east: -75.125109,
+}
+
 
 //---------------------RENDERING MAP----------------------------//
 
 function initMap() {
 
   map = new google.maps.Map(document.getElementById('map'), {
-    center: medellin_coords,
+    center: MEDELLIN_COORDS,
+    restriction: { latLngBounds: MEDELLIN_BOUNDS,strictBounds: true}, 
     zoom: 12
   })
 
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      }
+      map.setCenter(pos)
+      map.setZoom(16)
+
+      var marker = new google.maps.Marker({
+        position: pos,
+        map: map,
+        title: 'Hello World!'
+      });
+    })
+  } 
 }
 
 //-------------------------BUTTON FUNCTIONS---------------------//
