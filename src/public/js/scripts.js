@@ -146,7 +146,7 @@ function graph_dos_cinco() {
           strokeOpacity: 0.2,
           strokeWeight: 1,
           fillColor: color,
-          fillOpacity: 0.25,
+          fillOpacity: 0.4,
           map: map,
           center: cent ,
           radius: 400

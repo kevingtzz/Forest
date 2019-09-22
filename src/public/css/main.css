@@ -19,7 +19,6 @@ nav button {
     outline: none;
     filter: drop-shadow(3px 4px 3px rgb(61, 61, 61));
     border: none;
-    display: none;
 }
 
 nav button:hover {
