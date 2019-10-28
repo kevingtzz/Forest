@@ -18,9 +18,8 @@ const CATEGORIES = {
   veryHarmful: '#800080',
   dangeruous: '#8B4513'
 }
-
-var data = []
-
+let data = [];
+let user_position = {};
 //---------------------RENDERING MAP----------------------------//
 
 function initMap() {
@@ -33,7 +32,7 @@ function initMap() {
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = {
+      pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       }
@@ -58,7 +57,7 @@ var layers_button = document.getElementById('layers')
 
 online_nodes_button.addEventListener('click', get_online_nodes)
 offline_nodes_button.addEventListener('click', get_offline_nodes)
-layers_button.addEventListener('click', graph_dos_cinco)
+layers_button.addEventListener('click', distancia_recomendación)
 
 //----------------------GET DATA FUNCTIONS----------------------//
 
@@ -118,6 +117,7 @@ function graph_dos_cinco() {
   req.addEventListener('load', () => {
     if (req.status == 200) {
       data = JSON.parse(req.response)
+
       for (var i in data) {
         let cent = {
           lat: data[i].latitude,
@@ -139,7 +139,7 @@ function graph_dos_cinco() {
         } else if (data[i].PM2_5_CC_ICA >= 301.0 && data[i].PM2_5_CC_ICA <= 500.0) {
           color = CATEGORIES.dangeruous
         } 
-        console.log(data[i].PM2_5_CC_ICA)
+        //console.log(data[i].PM2_5_CC_ICA)
         // Add the circle for this city to the map.
         var cityCircle = new google.maps.Circle({
           strokeColor: color,
@@ -152,6 +152,7 @@ function graph_dos_cinco() {
           radius: 400
         });
       }
+
     } else if (req.status > 200) {
       console.log(req.responseText)
     } else {
@@ -162,4 +163,62 @@ function graph_dos_cinco() {
     console.error("Error de red"); // Error de conexión
   });
   req.send(null)
+}
+
+ function Dist(lat1, lon1, lat2, lon2){
+    rad = function(x) {
+        return x*Math.PI/180;
+    }
+
+    var RadioTierra     = 6378.137;    //Km
+    var dLat  = rad( lat2 - lat1 );
+    var dLong = rad( lon2 - lon1 );
+
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLong/2) * Math.sin(dLong/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = RadioTierra * c;
+
+    return d.toFixed(6);                //Decimales
+}
+
+function distancia_recomendación() {
+    let distancia_minima;
+    let estacion;
+    let medicion;
+    let unidad = 'km';
+    let fiable = 'confiable.';
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            user_position = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            }
+            for (var i in data) {
+                let distacion_minima_aux = Dist(user_position.lat, user_position.lng, data[i].latitude, data[i].longitude);
+                let estacion_aux = data[i].barrio
+                let medicion_aux = data[i].PM2_5_CC_ICA
+                if (i == 0) {
+                    distancia_minima = distacion_minima_aux;
+                    estacion = estacion_aux;
+                    medicion = medicion_aux;
+                } else {
+                    if (distacion_minima_aux < distancia_minima) {
+                        distancia_minima = distacion_minima_aux;
+                        estacion = estacion_aux;
+                        medicion = medicion_aux;
+                    }
+                }
+            }
+            if  (distancia_minima > 0.5) {
+                fiable = 'poco confiable por su lejanía.';
+            }
+            if (distancia_minima < 0) {
+                distancia_minima = distancia_minima*10000000;
+                unidad = 'm'
+            }
+
+            alert('Usted está a ' + distancia_minima + unidad + ' de la estación ' + estacion + ' con medición ' + medicion.toFixed(3) + ' de PM 2.5.' + ' Dada su distancía a la estación esta medicion es ' + fiable) ;
+        })
+    }
 }
