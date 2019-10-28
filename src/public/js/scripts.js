@@ -54,6 +54,8 @@ function initMap() {
 var online_nodes_button = document.getElementById('online')
 var offline_nodes_button = document.getElementById('offline')
 var layers_button = document.getElementById('layers')
+var online_visible_markers = false;
+var offline_visible_markers = false;
 
 online_nodes_button.addEventListener('click', get_online_nodes)
 offline_nodes_button.addEventListener('click', get_offline_nodes)
@@ -62,30 +64,51 @@ layers_button.addEventListener('click', distancia_recomendación)
 //----------------------GET DATA FUNCTIONS----------------------//
 
 function get_online_nodes() {  
-  for(i = 0; i < data.length; i++) {
-    let marker = new google.maps.Marker({
-      position: {
-        lat: data[i].latitude,
-        lng: data[i].longitude
-      },
-      map: map,
-      title: data[i].barrio,
-      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-    });
+
+    if (online_visible_markers) {
+        for(var i in online_markers) {
+           online_markers[i].setMap(null);
+        }
+        online_visible_markers = false;
+        return;
+    }
+
+    online_markers = [];
+    for(i = 0; i < data.length; i++) {
+        online_markers.push(new google.maps.Marker({
+        position: {
+            lat: data[i].latitude,
+            lng: data[i].longitude
+        },
+        map: map,
+        title: data[i].barrio,
+        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+    }));
   }
+  online_visible_markers = true;
 }
 
 
 function get_offline_nodes() {
+
+    if (offline_visible_markers) {
+        for(var i in offline_markers) {
+           offline_markers[i].setMap(null);
+        }
+        offline_visible_markers = false;
+        return;
+    }
 
   var req = new XMLHttpRequest()
   req.open("GET", '/get_offline_nodes', true)
   req.addEventListener('load', () => {
     if (req.status == 200) {
       let data = JSON.parse(req.response)
-  
+        
+
+      offline_markers = [];
       for(i = 0; i < data.length; i++) {
-        let marker = new google.maps.Marker({
+        offline_markers.push(new google.maps.Marker({
           position: {
             lat: data[i].latitude,
             lng: data[i].longitude
@@ -93,8 +116,9 @@ function get_offline_nodes() {
           map: map,
           title: data[i].barrio,
           icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
-        });
+        }));
       }
+      offline_visible_markers = true;
     } else if (req.status > 200) {
       console.log(req.responseText)
     } else {
@@ -218,7 +242,8 @@ function distancia_recomendación() {
                 unidad = 'm'
             }
 
-            alert('Usted está a ' + distancia_minima + unidad + ' de la estación ' + estacion + ' con medición ' + medicion.toFixed(3) + ' de PM 2.5.' + ' Dada su distancía a la estación esta medicion es ' + fiable) ;
+            alert('Usted está a ' + distancia_minima.toFixed(0) + unidad + ' de la estación ' + estacion + ' con medición ' + medicion.toFixed(3) + ' de PM 2.5.' + ' Dada su distancía a la estación esta medicion es ' + fiable) ;
         })
     }
 }
+
