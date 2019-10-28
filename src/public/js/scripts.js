@@ -213,8 +213,8 @@ function distancia_recomendación() {
             if  (distancia_minima > 0.5) {
                 fiable = 'poco confiable por su lejanía.';
             }
-            if (distancia_minima < 0) {
-                distancia_minima = distancia_minima*10000000;
+            if (distancia_minima < 1) {
+                distancia_minima = distancia_minima*1000;
                 unidad = 'm'
             }
 
