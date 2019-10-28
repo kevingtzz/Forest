@@ -70,7 +70,7 @@ function get_online_nodes() {
         lng: data[i].longitude
       },
       map: map,
-      title: 'Hello World!',
+      title: data[i].barrio,
       icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
     });
   }
@@ -92,7 +92,7 @@ function get_offline_nodes() {
             lng: data[i].longitude
           },
           map: map,
-          title: 'Hello World!',
+          title: data[i].barrio,
           icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
         });
       }
