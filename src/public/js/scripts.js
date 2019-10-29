@@ -58,16 +58,22 @@ var online_visible_markers = false;
 var offline_visible_markers = false;
 var table_visible = false;
 
-online_nodes_button.addEventListener('click', get_online_nodes)
-offline_nodes_button.addEventListener('click', get_offline_nodes)
-layers_button.addEventListener('click', distancia_recomendación)
+online_nodes_button.addEventListener('click', get_online_nodes);
+offline_nodes_button.addEventListener('click', get_offline_nodes);
+layers_button.addEventListener('click', distancia_recomendación);
 info_button.addEventListener('click', () => {
   let tabla = document.getElementById('tabla');
+  if (isMobile()) {
+    tabla.style.width = '100vw';
+    tabla.style.height = '300px';
+    tabla.style.bottom = '300px';
+    tabla.style.marginLeft = '0px';
+  }
   if (table_visible) {
-    tabla.style.display = 'none';
+    tabla.style.zIndex = '-10';
     table_visible = false
   } else {
-    tabla.style.display = 'inline';
+    tabla.style.zIndex = '50';
     table_visible = true;
   }
 });
@@ -273,4 +279,14 @@ function recomendacion(medicion) {
     recomendacion_txt = 'Su localidad prsenta un estado de emergencía, se recomienda salir de la zona hasta que la calidad del aire sea estabilizada.'
   }
   alert(recomendacion_txt);
+}
+
+function isMobile(){
+  return (
+      (navigator.userAgent.match(/Android/i)) ||
+      (navigator.userAgent.match(/webOS/i)) ||
+      (navigator.userAgent.match(/iPhone/i)) ||
+      (navigator.userAgent.match(/iPod/i)) ||
+      (navigator.userAgent.match(/BlackBerry/i))
+  );
 }
