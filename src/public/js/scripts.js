@@ -11,12 +11,11 @@ const MEDELLIN_BOUNDS = {
 }
 
 const CATEGORIES = {
-  good: '	#32CD32',
-  moderate: '#FFD700',
-  harmfulSensible: '#FF8C00',
-  harmful: '#FF4500',
-  veryHarmful: '#800080',
-  dangeruous: '#8B4513'
+  good: '#00B857',
+  moderate: '#F5F329',
+  harmfulSensible: '#FFC000',
+  harmful: '#FF0000',
+  veryHarmful: '#7E2196'
 }
 let data = [];
 let user_position = {};
@@ -54,12 +53,25 @@ function initMap() {
 var online_nodes_button = document.getElementById('online')
 var offline_nodes_button = document.getElementById('offline')
 var layers_button = document.getElementById('layers')
+var info_button = document.getElementById('info')
 var online_visible_markers = false;
 var offline_visible_markers = false;
+var table_visible = false;
 
 online_nodes_button.addEventListener('click', get_online_nodes)
 offline_nodes_button.addEventListener('click', get_offline_nodes)
 layers_button.addEventListener('click', distancia_recomendación)
+info_button.addEventListener('click', () => {
+  let tabla = document.getElementById('tabla');
+  if (table_visible) {
+    tabla.style.display = 'none';
+    table_visible = false
+  } else {
+    tabla.style.display = 'inline';
+    table_visible = true;
+  }
+});
+
 
 //----------------------GET DATA FUNCTIONS----------------------//
 
@@ -75,13 +87,14 @@ function get_online_nodes() {
 
     online_markers = [];
     for(i = 0; i < data.length; i++) {
+        tit = data[i].barrio + ', ' + data[i].PM2_5_CC_ICA.toFixed(2);
         online_markers.push(new google.maps.Marker({
         position: {
             lat: data[i].latitude,
             lng: data[i].longitude
         },
         map: map,
-        title: data[i].barrio,
+        title: tit,
         icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
     }));
   }
@@ -150,19 +163,17 @@ function graph_dos_cinco() {
 
         //set color
         let color = '#000000'
-        if (data[i].PM2_5_CC_ICA >= 0.0 && data[i].PM2_5_CC_ICA <= 50.0) {
+        if (data[i].PM2_5_CC_ICA >= 0.0 && data[i].PM2_5_CC_ICA < 50.0) {
           color = CATEGORIES.good
-        } else if (data[i].PM2_5_CC_ICA >= 51.0 && data[i].PM2_5_CC_ICA <= 100.0) {
+        } else if (data[i].PM2_5_CC_ICA >= 50.0 && data[i].PM2_5_CC_ICA < 100.0) {
           color = CATEGORIES.moderate
-        } else if (data[i].PM2_5_CC_ICA >= 101.0 && data[i].PM2_5_CC_ICA <= 150.0) {
+        } else if (data[i].PM2_5_CC_ICA >= 100.0 && data[i].PM2_5_CC_ICA < 150.0) {
           color = CATEGORIES.harmfulSensible
-        } else if (data[i].PM2_5_CC_ICA >= 151.0 && data[i].PM2_5_CC_ICA <= 200.0) {
+        } else if (data[i].PM2_5_CC_ICA >= 150.0 && data[i].PM2_5_CC_ICA < 200.0) {
           color = CATEGORIES.harmful
-        } else if (data[i].PM2_5_CC_ICA >= 201.0 && data[i].PM2_5_CC_ICA <= 300.0) {
+        } else if (data[i].PM2_5_CC_ICA >= 200.0 && data[i].PM2_5_CC_ICA) {
           color = CATEGORIES.veryHarmful
-        } else if (data[i].PM2_5_CC_ICA >= 301.0 && data[i].PM2_5_CC_ICA <= 500.0) {
-          color = CATEGORIES.dangeruous
-        } 
+        }
         //console.log(data[i].PM2_5_CC_ICA)
         // Add the circle for this city to the map.
         var cityCircle = new google.maps.Circle({
@@ -243,7 +254,23 @@ function distancia_recomendación() {
             }
 
             alert('Usted está a ' + distancia_minima.toFixed(0) + unidad + ' de la estación ' + estacion + ' con medición ' + medicion.toFixed(3) + ' de PM 2.5.' + ' Dada su distancía a la estación esta medicion es ' + fiable) ;
+            recomendacion(medicion);
         })
     }
 }
 
+function recomendacion(medicion) {
+  let recomendacion_txt = '';
+  if (medicion >= 0.0 && medicion < 50.0) {
+    recomendacion_txt= 'En su localidad la calidad del aire es satisfactoria y existe poco o ningún riesgo para la salud.'
+  } else if (medicion >= 50.0 && medicion < 100.0) {
+    recomendacion_txt = 'En su localidad la calidad del aire es aceptable, sin embargo, en el caso de algunos contaminantes, las personas que son usualmente sensibles como ancianos o bebés, pueden presentar sintomas moderados. Se advierte su riesgo a largo plazo.'
+  } else if (medicion >= 100.0 && medicion < 150.0) {
+    recomendacion_txt = 'En su localidad Quienes pertenecen a grupos sencibles pueden presentar efectos en la salud. El publico general usualmente no es afectado, sin embargo se advierte su riesgo a largo plazo.'
+  } else if (medicion >= 150.0 && medicion < 200.0) {
+    recomendacion_txt = 'En su localidad todos pueden presentar efectos en su salud, quienes pertenecen a grupos sencibles como niños o ancianos pueden presentar efectos graves. Se recomienda el uso de tapabocas.'
+  } else if (medicion >= 200.0) {
+    recomendacion_txt = 'Su localidad prsenta un estado de emergencía, se recomienda salir de la zona hasta que la calidad del aire sea estabilizada.'
+  }
+  alert(recomendacion_txt);
+}

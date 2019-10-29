@@ -17,7 +17,7 @@ controller.get_online_nodes = (req, res) => {
     }).then((json) => {
         let active_nodes = []
         for( i = 0; i < json.length; ++i) {
-            if (json[i].online == "Y") {
+            if (json[i].online == "Y" && json[i].PM2_5_CC_ICA >= 0) {
                 active_nodes.push(json[i])
             }
         }

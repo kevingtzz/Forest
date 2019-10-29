@@ -4,12 +4,12 @@
 }
 
 nav {
-    height: 240px;
+    height: 315px;
     width: 80px;
     bottom: 50px;
     position: absolute;
     display: grid;
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
     z-index: 10;
 }
 
@@ -55,6 +55,30 @@ nav button:hover {
 
 #layers:hover {
     color: rgb(61, 24, 24);
+}
+
+#info {
+    background-color: white;
+    /**color: rgb(136, 77, 77);**/
+    color: gray;
+    font-size: 32px;
+}
+
+#info:hover {
+    color: rgb(24, 163, 255);
+}
+
+#tabla {
+    display: none;
+    margin-left: 80px;
+    bottom: 10px;
+    position: absolute;
+    width: 80%;
+    height: 500px;
+    background-image: url('tabla_colores.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    z-index: 50;
 }
 
 #map {
