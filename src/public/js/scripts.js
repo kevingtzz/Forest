@@ -84,10 +84,10 @@ layers_button.addEventListener('mouseover', mouseonRecomendation);
 info_button.addEventListener('mouseover', mouseonInfo);
 
 
-online_nodes_button.addEventListener('onmouseout', mouseout);
-offline_nodes_button.addEventListener('onmouseout', mouseout);
-layers_button.addEventListener('onmouseout', mouseout);
-info_button.addEventListener('onmouseout', mouseout);
+online_nodes_button.addEventListener('onmouseout', mouseOUT);
+offline_nodes_button.addEventListener('onmouseout', mouseOUT);
+layers_button.addEventListener('onmouseout', mouseOUT);
+info_button.addEventListener('onmouseout', mouseOUT);
 
 function mouseonOnline() {
   console.log("here I am");
@@ -109,7 +109,7 @@ function mouseonInfo(){
   document.getElementById('popupInfo').style.display = 'block';
 }
 
-function mouseout() {
+function mouseOUT() {
   console.log("i am not here");
   document.getElementById('popupOnline').style.display = 'none';
   
