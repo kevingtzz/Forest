@@ -79,15 +79,15 @@ info_button.addEventListener('click', () => {
 });
 
 online_nodes_button.addEventListener('mouseover', mouseonOnline);
-offline_nodes_button.addEventListener('mouseover', mouseOnOffline);
+offline_nodes_button.addEventListener('mouseover', mouseonOffline);
 layers_button.addEventListener('mouseover', mouseonRecomendation);
 info_button.addEventListener('mouseover', mouseonInfo);
 
 
-online_nodes_button.addEventListener('mouseout', mouseout);
-offline_nodes_button.addEventListener('mouseout', mouseout);
-layers_button.addEventListener('mouseout', mouseout);
-info_button.addEventListener('mouseout', mouseout);
+online_nodes_button.addEventListener('onmouseout', mouseout);
+offline_nodes_button.addEventListener('onmouseout', mouseout);
+layers_button.addEventListener('onmouseout', mouseout);
+info_button.addEventListener('onmouseout', mouseout);
 
 function mouseonOnline() {
   console.log("here I am");
