@@ -91,22 +91,33 @@ info_button.addEventListener('onmouseout', mouseout);
 
 function mouseonOnline() {
   console.log("here I am");
+  document.getElementById('popupOnline').style.display = 'block';
 }
 
 function mouseonOffline() {
   console.log("here I am");
+  document.getElementById('popupOffline').style.display = 'block';
 }
 
 function mouseonRecomendation(){
   console.log("here I am");
+  document.getElementById('popupRecomendation').style.display = 'block';
 }
 
 function mouseonInfo(){
   console.log("here I am");
+  document.getElementById('popupInfo').style.display = 'block';
 }
 
 function mouseout() {
   console.log("i am not here");
+  document.getElementById('popupOnline').style.display = 'none';
+  
+  document.getElementById('popupOffline').style.display = 'none';
+  
+  document.getElementById('popupRecomendation').style.display = 'none';
+  
+  document.getElementById('popupInfo').style.display = 'none';
 }
 
 //----------------------GET DATA FUNCTIONS----------------------//
