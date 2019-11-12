@@ -84,8 +84,8 @@ layers_button.addEventListener('mouseover', mouseonRecomendation);
 info_button.addEventListener('mouseover', mouseonInfo);
 
 
-online_nodes_button.addEventListener('mouseout', mouseOUT);
-offline_nodes_button.addEventListener('mouseout', mouseOUT);
+online_nodes_button.addEventListener('onmouseout', mouseOUT);
+offline_nodes_button.addEventListener('onmouseout', mouseOUT);
 layers_button.addEventListener('mouseleave', mouseOUT);
 info_button.addEventListener('onmouseleave', mouseOUT);
 
