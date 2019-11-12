@@ -86,8 +86,8 @@ info_button.addEventListener('mouseover', mouseonInfo);
 
 online_nodes_button.addEventListener('mouseout', mouseOUT);
 offline_nodes_button.addEventListener('mouseout', mouseOUT);
-layers_button.addEventListener('mouseleave', mouseOUT);
-info_button.addEventListener('onmouseleave', mouseOUT);
+layers_button.addEventListener('mouseout', mouseOUT);
+info_button.addEventListener('mouseout', mouseOUT);
 
 function mouseonOnline() {
   document.getElementById('popupOnline').style.display = 'block';
