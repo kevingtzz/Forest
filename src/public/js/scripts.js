@@ -78,6 +78,36 @@ info_button.addEventListener('click', () => {
   }
 });
 
+online_nodes_button.addEventListener('mouseover', mouseonOnline);
+offline_nodes_button.addEventListener('mouseover', mouseOnOffline);
+layers_button.addEventListener('mouseover', mouseonRecomendation);
+info_button.addEventListener('mouseover', mouseonInfo);
+
+
+online_nodes_button.addEventListener('mouseout', mouseout);
+offline_nodes_button.addEventListener('mouseout', mouseout);
+layers_button.addEventListener('mouseout', mouseout);
+info_button.addEventListener('mouseout', mouseout);
+
+function mouseonOnline() {
+  console.log("here I am");
+}
+
+function mouseonOffline() {
+  console.log("here I am");
+}
+
+function mouseonRecomendation(){
+  console.log("here I am");
+}
+
+function mouseonInfo(){
+  console.log("here I am");
+}
+
+function mouseout() {
+  console.log("i am not here");
+}
 
 //----------------------GET DATA FUNCTIONS----------------------//
 
