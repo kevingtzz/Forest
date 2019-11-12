@@ -84,10 +84,10 @@ layers_button.addEventListener('mouseover', mouseonRecomendation);
 info_button.addEventListener('mouseover', mouseonInfo);
 
 
-online_nodes_button.addEventListener('onmouseout', mouseOUT);
-offline_nodes_button.addEventListener('onmouseout', mouseOUT);
-layers_button.addEventListener('onmouseout', mouseOUT);
-info_button.addEventListener('onmouseout', mouseOUT);
+online_nodes_button.addEventListener('mouseleave', mouseOUT);
+offline_nodes_button.addEventListener('mouseleave', mouseOUT);
+layers_button.addEventListener('mouseleave', mouseOUT);
+info_button.addEventListener('mouseleave', mouseOUT);
 
 function mouseonOnline() {
   document.getElementById('popupOnline').style.display = 'block';
